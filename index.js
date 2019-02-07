@@ -1,4 +1,4 @@
-//let userAgent = new SIP.UA('tmmgn@dpsoft.onsip.com');
+let userAgent = new SIP.UA('tmmgn@dpsoft.onsip.com');
 
 // let userAgent = new SIP.UA({
 //   uri: 'tmmgn@sip.linphone.org',
@@ -6,11 +6,11 @@
 //   register: true
 // });
 
-var userAgent = new SIP.UA({
-       uri: 'tmmgn@sip.linphone.org',
-       authorizationUser: 'tmmgn',
-       password: 'Systemmeltdown'
-});
+// var userAgent = new SIP.UA({
+//        uri: 'tmmgn@sip.linphone.org',
+//        authorizationUser: 'tmmgn',
+//        password: 'Systemmeltdown'
+// });
 
 userAgent.on('registered', function () {
   alert('pizdocs')
