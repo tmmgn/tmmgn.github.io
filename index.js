@@ -1,33 +1,47 @@
-let userAgent = new SIP.UA('tmmgn@dpsoft.onsip.com');
+var socket = new JsSIP.WebSocketInterface('wss://edge.sip.onsip.com');
+var configuration = {
+  sockets  : [ socket ],
+  uri      : 'sip:tmmgn@sip.linphone.org',
+  password : 'Systemmeltdown',
+  register : true,
+};
 
-// let userAgent = new SIP.UA({
-//   uri: 'tmmgn@sip.linphone.org',
-//   password: 'Systemmeltdown',
-//   register: true
-// });
-
-// var userAgent = new SIP.UA({
-//        uri: 'tmmgn@sip.linphone.org',
-//        authorizationUser: 'tmmgn',
-//        password: 'Systemmeltdown'
-// });
-
-userAgent.on('registered', function () {
-  alert('pizdocs')
-})
+var userAgent = new JsSIP.UA(configuration);
 
 
-userAgent.on('invite', function(session) {
-  alert('nihooya sebe')
-  let options =  {
-                    sessionDescriptionHandlerOptions: {
-                        constraints: {
-                            audio: true,
-                            video: false
-                        }
-                    }
-                };
+userAgent.on('connected', function(e){ console.log('connected') });
 
-                session.accept(options);
-  //session.accept();
-});
+userAgent.on('disconnected', function(e){ console.log('disconnected') });
+
+userAgent.on('newRTCSession', function(e){ console.log('newRTCSession') });
+
+userAgent.start();
+
+var eventHandlers = {
+  'progress': function(e) {
+    console.log('call is in progress');
+  },
+  'failed': function(e) {
+    console.log('call failed with cause: '+ JSON.stringify(e));
+  },
+  'ended': function(e) {
+    console.log('call ended with cause: '+ e);
+  },
+  'confirmed': function(e) {
+    console.log('call confirmed');
+  }
+};
+
+var options = {
+  'eventHandlers'    : eventHandlers,
+  'mediaConstraints' : { 'audio': true, 'video': false }
+};
+
+
+document.getElementById("startCall").onclick = function(){
+   userAgent.call('sip:tmmgn@dpsoft.onsip.com', options)
+}
+
+document.getElementById("endCall").onclick = function(){
+   userAgent.terminateSessions()
+}
