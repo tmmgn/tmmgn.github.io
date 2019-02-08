@@ -39,7 +39,7 @@ var options = {
 
 
 document.getElementById("startCall").onclick = function(){
-   userAgent.call('sip:tmmgn@dpsoft.onsip.com', options)
+   userAgent.call('sip:ilya@dpsoftllc.onsip.com', options)
 }
 
 document.getElementById("endCall").onclick = function(){
